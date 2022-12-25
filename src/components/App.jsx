@@ -1,29 +1,33 @@
+import { nanoid } from 'nanoid';
 import { Component } from 'react';
+import { ContactForm } from './ContactForm/ContactForm';
+import { ContactList } from './ContactList/ContactList';
 import { Section } from './Section/Section';
 export class App extends Component {
   state = {
     contacts: [],
     name: '',
   };
-  addContact = contact => {
-    this.setState(prevState => prevState.contacts.push(contact));
+  addContact = (name, number) => {
+    this.state.contacts.find(
+      option => option.name.toLowerCase() === name.toLowerCase()
+    )
+      ? alert(`${name} is already in contacts list`)
+      : this.setState(prevState => ({
+          contacts: [...prevState.contacts, { id: nanoid(), name, number }],
+        }));
   };
 
   render() {
+    const { addContact } = this;
+    const { contacts } = this.state;
     return (
       <div>
         <Section title="Phonebook">
-          <form>
-            <label>Name</label>
-            <input
-              type="text"
-              name="name"
-              pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-              title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-              required
-            />
-            <button onClick={e => this.addContact('vv')}>Add contact</button>
-          </form>
+          <ContactForm onSubmit={addContact} />
+        </Section>
+        <Section title="Contacts">
+          {contacts.length > 0 && <ContactList contacts={contacts} />}
         </Section>
       </div>
     );
