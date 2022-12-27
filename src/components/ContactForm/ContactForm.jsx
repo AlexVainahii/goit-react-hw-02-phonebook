@@ -4,9 +4,9 @@ export const ContactForm = ({ onSubmit }) => {
   const formSubmit = e => {
     e.preventDefault();
     const { name, number } = e.target.elements;
-    onSubmit(name.value, number.value);
+    if (onSubmit(name.value, number.value)){
     name.value = '';
-    number.value = '';
+    number.value = '';}
   };
 
   return (

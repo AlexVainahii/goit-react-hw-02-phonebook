@@ -16,13 +16,13 @@ export class App extends Component {
     filter: '',
   };
   addContact = (name, number) => {
-    this.state.contacts.find(
+   if( this.state.contacts.find(
       option => option.name.toLowerCase() === name.toLowerCase()
-    )
-      ? alert(`${name} is already in contacts list`)
-      : this.setState(prevState => ({
+    ))
+      { alert(`${name} is already in contacts list`); return false}
+      else{ this.setState(prevState => ({
           contacts: [...prevState.contacts, { id: nanoid(), name, number }],
-        }));
+        }));  return true}
   };
   deleteContacts = id => {
     this.setState(prevState => {
